@@ -1477,6 +1477,7 @@ sections.forEach(id => { const el = document.getElementById(id); if(el) obs.obse
 
   function placeCamera(t) {
     const back = 15 + Math.max(0, 1.6 - aspect) * 7;   // pull back on narrow screens
+    if (reduceMotion) { tmx = tmy = 0; }   // no camera parallax when reduced motion is requested
     mx += (tmx - mx) * 0.05; my += (tmy - my) * 0.05;
     const sway = reduceMotion ? 0 : Math.sin(t * 0.15) * 1.0;
     camera.position.set(sway + mx * 3.0, 5 - my * 0.8, back);
@@ -1492,23 +1493,19 @@ sections.forEach(id => { const el = document.getElementById(id); if(el) obs.obse
   }
   function frame(now) {
     if (!running) return;
-    const dt = Math.min(0.05, (now - last) / 1000);
+    const dt = Math.min(0.05, (now - last) / 1000) * (reduceMotion ? 0.6 : 1);  // gentler pace if the OS asks for reduced motion
     last = now;
     draw(dt);
     requestAnimationFrame(frame);
   }
-  function start() { if (running || reduceMotion) return; running = true; last = performance.now(); requestAnimationFrame(frame); }
+  function start() { if (running) return; running = true; last = performance.now(); requestAnimationFrame(frame); }
   function stop() { running = false; }
 
   resize();
   new ResizeObserver(resize).observe(wrap);
 
-  if (reduceMotion) {
-    for (let i = 0; i < 240; i++) draw(1 / 30);   // pre-roll, then show a still frame
-  } else {
-    new IntersectionObserver((es) => es[0].isIntersecting ? start() : stop(), { threshold: 0.05 }).observe(wrap);
-    document.addEventListener('visibilitychange', () => document.hidden ? stop() : (wrap.getBoundingClientRect().bottom > 0 && start()));
-  }
+  new IntersectionObserver((es) => es[0].isIntersecting ? start() : stop(), { threshold: 0.05 }).observe(wrap);
+  document.addEventListener('visibilitychange', () => document.hidden ? stop() : (wrap.getBoundingClientRect().bottom > 0 && start()));
 })();
 </script>
 
