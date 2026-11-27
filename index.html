@@ -860,8 +860,8 @@ html { scroll-behavior: smooth; }
         <button onclick="closeCheckout()"
           class="flex-1 py-3 rounded-full text-sm font-semibold border transition-colors"
           style="border-color:var(--border);color:var(--fg-muted)">取消</button>
-        <button onclick="submitOrder()"
-          class="flex-1 py-3 rounded-full text-sm font-semibold text-white"
+        <button id="submit-order-btn" onclick="submitOrder()"
+          class="flex-1 py-3 rounded-full text-sm font-semibold text-white disabled:opacity-60"
           style="background:var(--accent)">送出訂單 🥟</button>
       </div>
     </div>
@@ -871,7 +871,8 @@ html { scroll-behavior: smooth; }
       <div class="text-6xl mb-4">🎉</div>
       <h2 class="font-display text-2xl font-bold mb-3">訂單已建立！</h2>
       <p class="text-sm mb-2" style="color:var(--fg-muted)">感謝您的惠顧，我們會盡快為您備餐。</p>
-      <p id="success-order-no" class="font-semibold mb-6" style="color:var(--accent)"></p>
+      <p id="success-order-no" class="font-semibold mb-1" style="color:var(--accent)"></p>
+      <p id="success-order-total" class="text-sm mb-6" style="color:var(--fg-muted)"></p>
       <button onclick="closeCheckout(true)"
         class="px-8 py-3 rounded-full text-white font-semibold"
         style="background:var(--accent)">返回首頁</button>
@@ -928,6 +929,7 @@ function cartTotal() {
 }
 
 function updateCartUI() {
+  currentRequestId = null;   // 購物車內容改變 → 視為新的一筆訂單
   const badge   = document.getElementById('cart-badge');
   const items   = document.getElementById('cart-items');
   const empty   = document.getElementById('cart-empty');
@@ -1054,20 +1056,83 @@ function closeCheckout(clear = false) {
   }
 }
 
-function submitOrder() {
-  const name  = document.getElementById('c-name').value.trim();
-  const phone = document.getElementById('c-phone').value.trim();
+// ── 訂單送出（Google Apps Script Web App → Google Sheet）──────────
+// 部署 gas/Code.gs 後，把「網頁應用程式網址」貼在這裡（見 gas/README.md）。
+// 留空時維持示範模式：不會真的送出，只顯示本機產生的訂單編號。
+const ORDER_ENDPOINT = '';
+
+let currentRequestId = null;   // 同一次結帳重試時沿用，避免重複建單
+let submitting = false;
+
+function newRequestId() {
+  return (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
+    : 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+}
+
+function showCheckoutError(msg) {
   const errEl = document.getElementById('checkout-error');
-  if (!name || !phone) {
-    errEl.textContent = '⚠️ 請填寫姓名與電話';
-    errEl.classList.remove('hidden');
-    return;
-  }
-  errEl.classList.add('hidden');
-  const orderNo = 'GT' + Date.now().toString().slice(-6);
+  errEl.textContent = '⚠️ ' + msg;
+  errEl.classList.remove('hidden');
+}
+
+function showCheckoutSuccess(orderNo, total) {
   document.getElementById('success-order-no').textContent = `訂單編號：${orderNo}`;
+  document.getElementById('success-order-total').textContent = `應付金額 NT$${Number(total).toLocaleString()}`;
   document.getElementById('checkout-step1').classList.add('hidden');
   document.getElementById('checkout-step2').classList.remove('hidden');
+  currentRequestId = null;
+}
+
+async function submitOrder() {
+  if (submitting) return;
+  const name  = document.getElementById('c-name').value.trim();
+  const phone = document.getElementById('c-phone').value.trim();
+  const addr  = document.getElementById('c-addr').value.trim();
+  const note  = document.getElementById('c-note').value.trim();
+  const dine  = (document.querySelector('input[name="dine"]:checked') || {}).value || 'dine-in';
+  document.getElementById('checkout-error').classList.add('hidden');
+
+  if (!name || !phone) return showCheckoutError('請填寫姓名與電話');
+  if (phone.replace(/\D/g, '').length < 8) return showCheckoutError('請填寫正確的電話');
+  if (dine === 'delivery' && !addr) return showCheckoutError('宅配請填寫送貨地址');
+  if (!cart.length) return showCheckoutError('購物車是空的');
+
+  // 示範模式（尚未設定 ORDER_ENDPOINT）
+  if (!ORDER_ENDPOINT) {
+    console.warn('ORDER_ENDPOINT 尚未設定，訂單不會送到 Google Sheet。');
+    return showCheckoutSuccess('GT' + Date.now().toString().slice(-6), cartTotal());
+  }
+
+  if (!currentRequestId) currentRequestId = newRequestId();
+  const payload = {
+    requestId: currentRequestId,
+    dine, name, phone, addr, note,
+    items: cart.map(i => ({ id: i.id, qty: i.qty })),   // 價格由伺服器端重算
+    clientTotal: cartTotal()
+  };
+
+  const btn = document.getElementById('submit-order-btn');
+  submitting = true; btn.disabled = true; btn.textContent = '送出中…';
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 30000);
+  try {
+    // text/plain 屬於「簡單請求」，不會觸發 CORS 預檢，Apps Script 才收得到
+    const res = await fetch(ORDER_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+      signal: ctrl.signal
+    });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error || '訂單送出失敗');
+    showCheckoutSuccess(data.orderNo, data.total);
+  } catch (e) {
+    showCheckoutError(e.name === 'AbortError' ? '連線逾時，請檢查網路後再按一次送出（不會重複建單）'
+      : (e.message && e.message !== 'Failed to fetch' ? e.message : '無法連線到訂單系統，請稍後再試或來電訂購'));
+  } finally {
+    clearTimeout(timer);
+    submitting = false; btn.disabled = false; btn.textContent = '送出訂單 🥟';
+  }
 }
 
 // ── Tab switching ──────────────────────────────────────────────
