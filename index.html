@@ -143,9 +143,28 @@ html { scroll-behavior: smooth; }
 .faq-chevron { transition: transform 0.3s; }
 .faq-chevron.open { transform: rotate(180deg); }
 
+/* ── Floating Booking Button ── */
+#booking-fab {
+  position: fixed; z-index: 150;
+  right: calc(1.25rem + env(safe-area-inset-right, 0px));
+  bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.85rem 1.4rem; border-radius: 999px;
+  background: var(--accent); color: #fff;
+  font-size: 0.95rem; font-weight: 600; text-decoration: none;
+  box-shadow: 0 8px 24px rgba(200,105,29,0.45);
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+#booking-fab:hover { background: var(--accent-lt); transform: translateY(-2px); box-shadow: 0 12px 28px rgba(200,105,29,0.5); }
+#booking-fab:focus-visible { outline: 3px solid var(--accent-lt); outline-offset: 3px; }
+#booking-fab svg { flex-shrink: 0; }
+@media (max-width: 480px) {
+  #booking-fab { padding: 0.8rem 1.1rem; font-size: 0.9rem; }
+}
+
 /* ── Toast ── */
 #toast {
-  position: fixed; bottom: 2rem; right: 1.5rem; z-index: 9999;
+  position: fixed; bottom: 5.5rem; right: 1.25rem; z-index: 9999;
   background: var(--wood); color: #F7F0E6;
   padding: 0.9rem 1.4rem; border-radius: 0.75rem;
   box-shadow: 0 8px 24px rgba(0,0,0,0.3);
@@ -712,6 +731,17 @@ html { scroll-behavior: smooth; }
     </div>
   </div>
 </footer>
+
+<!-- Floating Booking Button -->
+<a id="booking-fab" href="https://calendar.app.google/LcNqJ1wvFej8YRqC6" target="_blank" rel="noopener noreferrer" aria-label="立即預約（另開新視窗）">
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+    <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+    <line x1="3" y1="10" x2="21" y2="10"/>
+  </svg>
+  <span>立即預約</span>
+</a>
 
 <!-- Toast -->
 <div id="toast">🥟 已加入購物車！</div>
