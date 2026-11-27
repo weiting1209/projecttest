@@ -1,0 +1,24 @@
+{
+  "name": "金黃鍋貼",
+  "short_name": "金黃鍋貼",
+  "description": "三十年傳承的金黃酥脆鍋貼：線上點餐、冷凍禮盒、門市據點。",
+  "lang": "zh-TW",
+  "dir": "ltr",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "id": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#1A120A",
+  "theme_color": "#C8691D",
+  "categories": ["food", "shopping"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "線上點餐", "short_name": "點餐", "url": "./#menu", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "門市據點", "short_name": "門市", "url": "./#locations", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
