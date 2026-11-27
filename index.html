@@ -146,27 +146,25 @@ html { scroll-behavior: smooth; }
 .faq-chevron { transition: transform 0.3s; }
 .faq-chevron.open { transform: rotate(180deg); }
 
-/* ── 3D Street Scene ── */
-#street3d {
-  position: relative; width: 100%; aspect-ratio: 16/9; min-height: 300px;
-  border-radius: 1.25rem; overflow: hidden; border: 1px solid var(--border);
-  background: linear-gradient(to bottom, #9fd0ee 0%, #f9e2b8 60%, #f3c98b 100%);
-  box-shadow: 0 16px 40px rgba(61,43,31,0.18);
-  touch-action: pan-y;
+/* ── Hero 3D scene ── */
+#hero { position: relative; overflow: hidden; display: flex; align-items: flex-start; }
+#hero3d {
+  position: absolute; inset: 0; z-index: 0; background: #f0b070;
+  opacity: 0; transition: opacity 0.9s ease;
 }
-#street3d canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-#street3d .street-badge {
-  position: absolute; left: 1rem; top: 1rem; z-index: 2;
-  padding: 0.4rem 0.9rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600;
-  background: rgba(253,250,245,0.88); color: #3D2B1F; backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px); pointer-events: none;
+#hero3d.ready { opacity: 1; }
+#hero3d canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.hero-shade {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(26,18,10,0.82) 0%, rgba(26,18,10,0.55) 40%, rgba(26,18,10,0) 64%);
 }
-#street3d .street-fallback {
-  display: none; position: absolute; inset: 0; align-items: center; justify-content: center;
-  text-align: center; padding: 1.5rem; color: #3D2B1F; font-size: 0.95rem;
+.hero-content { position: relative; z-index: 2; width: 100%; }
+@media (min-width: 768px) {
+  #hero { align-items: center; }
+  .hero-shade {
+    background: linear-gradient(to right, rgba(26,18,10,0.85) 0%, rgba(26,18,10,0.62) 36%, rgba(26,18,10,0) 68%);
+  }
 }
-#street3d.no-webgl .street-fallback { display: flex; }
-#street3d.no-webgl .street-badge { display: none; }
 
 /* ── Floating Booking Button ── */
 #booking-fab {
@@ -354,61 +352,37 @@ html { scroll-behavior: smooth; }
 <!-- ═══════════════════════════════════════════
      HERO SECTION
 ═══════════════════════════════════════════ -->
-<section id="hero" class="relative flex items-center justify-center text-center px-4"
+<section id="hero" class="px-4 md:px-0"
   style="padding-top:calc(env(safe-area-inset-top,0px) + 4rem)">
-  <!-- fallback gradient if image blocked -->
-  <div class="absolute inset-0 -z-10" style="background:linear-gradient(145deg,#231810 0%,#3D2B1F 40%,#6B4226 100%)"></div>
+  <!-- 3D scene layer (falls back to the photo background above if WebGL is unavailable) -->
+  <div id="hero3d" aria-hidden="true"></div>
+  <div class="hero-shade"></div>
 
-  <div class="max-w-3xl mx-auto py-24 md:py-32">
-    <p class="text-sm font-semibold uppercase tracking-widest mb-4" style="color:var(--accent-lt)">Since 1994 · 三十年傳承</p>
-    <h1 class="font-display text-4xl md:text-6xl font-bold leading-tight mb-6" style="color:#F7F0E6;text-wrap:balance">
-      金黃酥脆，<br>傳承手藝的<span style="color:var(--accent-lt)">極致美味</span>
-    </h1>
-    <p class="text-base md:text-lg mb-10 max-w-xl mx-auto leading-relaxed" style="color:rgba(247,240,230,0.75)">
-      每一顆鍋貼都是匠人心血。台灣在地豬肉、每日手工現包，金黃酥脆底座，一口便知真功夫。
-    </p>
-    <div class="flex flex-wrap gap-4 justify-center">
-      <a href="#menu"
-        class="px-8 py-3.5 rounded-full font-semibold text-white transition-all"
-        style="background:var(--accent)"
-        onmouseover="this.style.background='var(--accent-lt)'"
-        onmouseout="this.style.background='var(--accent)'">
-        🥟 線上點餐
-      </a>
-      <a href="#locations"
-        class="px-8 py-3.5 rounded-full font-semibold transition-all"
-        style="background:rgba(247,240,230,0.12);color:#F7F0E6;border:1.5px solid rgba(247,240,230,0.35)"
-        onmouseover="this.style.background='rgba(247,240,230,0.2)'"
-        onmouseout="this.style.background='rgba(247,240,230,0.12)'">
-        📍 探索門市
-      </a>
-    </div>
-
-    <!-- scroll cue -->
-    <div class="mt-16 flex flex-col items-center gap-1" style="color:rgba(247,240,230,0.4)">
-      <span class="text-xs tracking-widest">SCROLL</span>
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-        class="animate-bounce"><path d="m6 9 6 6 6-6"/></svg>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════
-     3D STREET SCENE
-═══════════════════════════════════════════ -->
-<section id="street-life" class="py-16 md:py-24">
-  <div class="max-w-5xl mx-auto px-4 md:px-8">
-    <div class="text-center mb-8">
-      <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--accent)">Live Street</p>
-      <h2 class="font-display text-3xl md:text-4xl font-bold" style="text-wrap:balance">人來人往，門庭若市</h2>
-      <p class="mt-3 text-sm max-w-xl mx-auto leading-relaxed" style="color:var(--fg-muted)">
-        每天都有熟客與路人排隊上門，移動滑鼠（或手指）還能換個角度看看店門口。
+  <div class="hero-content max-w-7xl mx-auto md:px-8 text-center md:text-left">
+    <div class="max-w-xl py-12 md:py-24">
+      <p class="text-sm font-semibold uppercase tracking-widest mb-4" style="color:var(--accent-lt)">Since 1994 · 三十年傳承</p>
+      <h1 class="font-display text-4xl md:text-6xl font-bold leading-tight mb-6" style="color:#F7F0E6;text-wrap:balance">
+        金黃酥脆，<br>傳承手藝的<span style="color:var(--accent-lt)">極致美味</span>
+      </h1>
+      <p class="text-base md:text-lg mb-10 max-w-xl mx-auto md:mx-0 leading-relaxed" style="color:rgba(247,240,230,0.82)">
+        每一顆鍋貼都是匠人心血。台灣在地豬肉、每日手工現包，金黃酥脆底座，一口便知真功夫。
       </p>
-    </div>
-    <div id="street3d" role="img" aria-label="3D 動畫：行人在金黃鍋貼店門前來來往往，不時進出店家">
-      <span class="street-badge">🥟 現正熱烈營業中</span>
-      <div class="street-fallback">您的瀏覽器不支援 3D 動畫，但我們的鍋貼依然金黃酥脆！🥟</div>
+      <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+        <a href="#menu"
+          class="px-8 py-3.5 rounded-full font-semibold text-white transition-all"
+          style="background:var(--accent)"
+          onmouseover="this.style.background='var(--accent-lt)'"
+          onmouseout="this.style.background='var(--accent)'">
+          🥟 線上點餐
+        </a>
+        <a href="#locations"
+          class="px-8 py-3.5 rounded-full font-semibold transition-all"
+          style="background:rgba(247,240,230,0.12);color:#F7F0E6;border:1.5px solid rgba(247,240,230,0.35)"
+          onmouseover="this.style.background='rgba(247,240,230,0.2)'"
+          onmouseout="this.style.background='rgba(247,240,230,0.12)'">
+          📍 探索門市
+        </a>
+      </div>
     </div>
   </div>
 </section>
@@ -1219,9 +1193,10 @@ sections.forEach(id => { const el = document.getElementById(id); if(el) obs.obse
 ═══════════════════════════════════════════ -->
 <script>
 (function () {
-  const wrap = document.getElementById('street3d');
+  const wrap = document.getElementById('hero3d');
+  const heroEl = document.getElementById('hero');
   if (!wrap) return;
-  const fail = () => wrap.classList.add('no-webgl');
+  const fail = () => {};   // hero keeps its photo background as the fallback
   if (typeof THREE === 'undefined') { fail(); return; }
 
   let renderer;
@@ -1237,14 +1212,29 @@ sections.forEach(id => { const el = document.getElementById(id); if(el) obs.obse
   wrap.appendChild(renderer.domElement);
 
   const scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(0xf3d3a2, 30, 95);
+  scene.fog = new THREE.Fog(0xf0b070, 25, 90);
   const camera = new THREE.PerspectiveCamera(40, 16 / 9, 0.1, 200);
-  const LOOK = new THREE.Vector3(0, 1.3, -0.5);
+  const LOOK = new THREE.Vector3(0, 1.3, 1.5);
+
+  // ── Dusk sky dome (gradient follows the horizon, so it blends with the fog) ──
+  (function () {
+    const R = 160, geo = new THREE.SphereGeometry(R, 32, 20), pos = geo.attributes.position, cols = [];
+    const top = new THREE.Color(0x1f2a4a), mid = new THREE.Color(0x8a6a8e), hor = new THREE.Color(0xf0b070), c = new THREE.Color();
+    for (let i = 0; i < pos.count; i++) {
+      const t = Math.max(0, pos.getY(i) / R) / 0.16;
+      if (t < 0.5) c.copy(hor).lerp(mid, t / 0.5); else c.copy(mid).lerp(top, Math.min(1, (t - 0.5) / 0.5));
+      cols.push(c.r, c.g, c.b);
+    }
+    geo.setAttribute('color', new THREE.Float32BufferAttribute(cols, 3));
+    const sky = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.BackSide, fog: false, depthWrite: false }));
+    sky.renderOrder = -1; sky.frustumCulled = false;
+    scene.add(sky);
+  })();
 
   // ── Lights ──
-  scene.add(new THREE.HemisphereLight(0xfff4e0, 0x8a6b4a, 0.75));
-  const sun = new THREE.DirectionalLight(0xfff0d0, 0.7);
-  sun.position.set(7, 11, 9);
+  scene.add(new THREE.HemisphereLight(0xffe2c4, 0x5a4636, 0.85));
+  const sun = new THREE.DirectionalLight(0xffb878, 0.85);
+  sun.position.set(-9, 8, 10);
   sun.castShadow = true;
   sun.shadow.mapSize.set(2048, 2048);
   Object.assign(sun.shadow.camera, { left: -16, right: 16, top: 12, bottom: -8, near: 1, far: 40 });
@@ -1266,13 +1256,13 @@ sections.forEach(id => { const el = document.getElementById(id); if(el) obs.obse
   }
 
   // ── Ground, pavement, road ──
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(200, 120), lambert(0xc9b99d));
+  const ground = new THREE.Mesh(new THREE.CircleGeometry(150, 48), lambert(0xb9a07a));
   ground.rotation.x = -Math.PI / 2;
   ground.receiveShadow = true;
   scene.add(ground);
   box(70, 0.12, 3.8, 0xdcd1c0, 0, 0.06, 0.9);              // pavement  z: -1.0 .. 2.8
   box(70, 0.16, 0.22, 0xbdb3a3, 0, 0.08, 2.9);             // curb
-  box(200, 0.02, 14, 0x57534e, 0, 0.01, 10.1).castShadow = false; // road
+  box(300, 0.02, 14, 0x6a645c, 0, 0.01, 10.1).castShadow = false; // road
   for (let x = -30; x <= 30; x += 3) box(1.5, 0.03, 0.14, 0xf5efe0, x, 0.03, 10.1).castShadow = false;
 
   // ── Shop (with a real doorway) ──
@@ -1457,6 +1447,77 @@ sections.forEach(id => { const el = document.getElementById(id); if(el) obs.obse
     setOpacity(w, z < -1.0 ? Math.max(0, Math.min(1, (z + 2.5) / 1.5)) : 1);
   }
 
+  // ── Camels (a little caravan strolling along the street) ──
+  const CAMEL_FUR = [0xc79a62, 0xb98a52, 0xd2a870];
+  const CAMEL_BLANKET = [0xbc4749, 0x3d7ea6, 0x2a9d8f, 0xe9c46a];
+  function makeCamel() {
+    const g = new THREE.Group();
+    const fur = lambert(pick(CAMEL_FUR)), dark = lambert(0x6b4a2b), light = lambert(0xe2c79a);
+    const blanket = lambert(pick(CAMEL_BLANKET)), eye = basic(0x1d1612);
+    const add = (geo, mat, x, y, z, sx, sy, sz, rx) => {
+      const m = new THREE.Mesh(geo, mat);
+      m.position.set(x, y, z); m.scale.set(sx || 1, sy || 1, sz || 1); if (rx) m.rotation.x = rx;
+      m.castShadow = true; g.add(m); return m;
+    };
+    const sph = (r) => new THREE.SphereGeometry(r, 14, 10);
+    add(sph(0.55), fur, 0, 1.65, 0, 0.85, 0.8, 1.6);              // body
+    add(sph(0.4), fur, 0, 2.22, -0.1, 0.9, 1.05, 1);              // hump
+    add(new THREE.BoxGeometry(0.98, 0.09, 0.7), blanket, 0, 1.97, 0.55);   // saddle blanket
+    add(new THREE.CylinderGeometry(0.17, 0.23, 1.05, 10), fur, 0, 2.25, 1.0, 1, 1, 1, 0.5);   // neck
+    add(sph(0.25), fur, 0, 2.78, 1.3, 0.8, 0.85, 1.3);            // head
+    add(sph(0.17), light, 0, 2.68, 1.6, 0.95, 0.8, 1.2);          // muzzle
+    [-1, 1].forEach((sd) => {
+      add(sph(0.035), eye, sd * 0.14, 2.84, 1.38);                // eyes
+      add(new THREE.ConeGeometry(0.06, 0.16, 6), dark, sd * 0.14, 3.02, 1.17);   // ears
+    });
+    add(new THREE.CylinderGeometry(0.035, 0.05, 0.6, 6), dark, 0, 1.6, -0.98, 1, 1, 1, -0.35);   // tail
+    const legs = [];
+    [[-1, 1], [1, 1], [-1, -1], [1, -1]].forEach(([sx, sz]) => {
+      const pivot = new THREE.Group(); pivot.position.set(sx * 0.3, 1.25, sz * 0.58); g.add(pivot);
+      const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.105, 1.25, 8), fur);
+      leg.position.y = -0.625; leg.castShadow = true; pivot.add(leg);
+      const hoof = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.125, 0.1, 8), dark);
+      hoof.position.y = -1.2; pivot.add(hoof);
+      legs.push({ pivot, ph: sx * sz > 0 ? 0 : Math.PI });       // pacing gait: same-side legs together
+    });
+    g.userData.legs = legs;
+    return g;
+  }
+
+  const CAMEL_LANE_R = 5.6, CAMEL_LANE_L = 7.3, CAMEL_EDGE = 13;
+  const camels = [];
+  function resetCamel(c, delay, forceDir) {
+    const dir = forceDir || (Math.random() < 0.5 ? 1 : -1);
+    const z = (dir > 0 ? CAMEL_LANE_R : CAMEL_LANE_L) + rand(-0.3, 0.3);
+    c.dir = dir; c.z = z; c.x = -dir * CAMEL_EDGE; c.delay = delay;
+    c.speed = rand(0.55, 0.85); c.phase = rand(0, 6.28);
+    c.obj.position.set(c.x, 0, z);
+    c.obj.rotation.y = dir > 0 ? Math.PI / 2 : -Math.PI / 2;
+    const sc = rand(0.95, 1.1); c.obj.scale.setScalar(sc);
+    c.obj.visible = false;
+  }
+  for (let i = 0; i < 4; i++) {
+    const c = { obj: makeCamel() };
+    scene.add(c.obj);
+    if (i < 3) {                                   // a few are already strolling when the page opens
+      resetCamel(c, 0, i % 2 ? -1 : 1);
+      c.x = -5 + i * 5 + rand(-1, 1); c.obj.position.x = c.x; c.obj.visible = true;
+    } else resetCamel(c, rand(3, 8));
+    camels.push(c);
+  }
+  function stepCamel(c, dt) {
+    if (c.delay > 0) { c.delay -= dt; return; }
+    c.x += c.dir * c.speed * dt;
+    if (c.dir * c.x > CAMEL_EDGE) { resetCamel(c, rand(2, 8)); return; }
+    c.obj.visible = true;
+    c.obj.position.x = c.x;
+    c.phase += dt * c.speed * 3.6;
+    const legs = c.obj.userData.legs;
+    for (let i = 0; i < legs.length; i++) legs[i].pivot.rotation.x = Math.sin(c.phase + legs[i].ph) * 0.38;
+    c.obj.position.y = Math.abs(Math.sin(c.phase)) * 0.03;
+    c.obj.rotation.z = Math.sin(c.phase) * 0.015;     // gentle sway
+  }
+
   // ── Camera, resize, interaction ──
   let aspect = 16 / 9, mx = 0, my = 0, tmx = 0, tmy = 0;
   function resize() {
@@ -1465,22 +1526,28 @@ sections.forEach(id => { const el = document.getElementById(id); if(el) obs.obse
     renderer.setSize(w, h, false);
     aspect = w / h;
     camera.aspect = aspect;
+    // Frame the shop to the right of the text on wide screens, and below the text on tall ones.
+    const portrait = aspect < 1.05;
+    const cx = portrait ? 0.5 : 0.66, cy = portrait ? 0.76 : 0.56;
+    camera.setViewOffset(w, h, -(cx - 0.5) * w, -(cy - 0.5) * h, w, h);
     camera.updateProjectionMatrix();
     if (!running) draw(0);
   }
-  wrap.addEventListener('pointermove', (e) => {
+  heroEl.addEventListener('pointermove', (e) => {
     const r = wrap.getBoundingClientRect();
     tmx = ((e.clientX - r.left) / r.width - 0.5) * 2;
     tmy = ((e.clientY - r.top) / r.height - 0.5) * 2;
   });
-  wrap.addEventListener('pointerleave', () => { tmx = 0; tmy = 0; });
+  heroEl.addEventListener('pointerleave', () => { tmx = 0; tmy = 0; });
 
   function placeCamera(t) {
-    const back = 15 + Math.max(0, 1.6 - aspect) * 7;   // pull back on narrow screens
+    const halfW = aspect >= 1.5 ? 12 : 5.5 + (Math.max(aspect, 0.45) - 0.45) * (6.5 / 1.05);   // world half-width to keep in view
+    const back = Math.max(13, halfW / (Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * aspect));
+    const camY = 4.2 + back * 0.1;
     if (reduceMotion) { tmx = tmy = 0; }   // no camera parallax when reduced motion is requested
     mx += (tmx - mx) * 0.05; my += (tmy - my) * 0.05;
     const sway = reduceMotion ? 0 : Math.sin(t * 0.15) * 1.0;
-    camera.position.set(sway + mx * 3.0, 5 - my * 0.8, back);
+    camera.position.set(sway + mx * 3.0, camY - my * 0.8, back + 1.5);
     camera.lookAt(LOOK);
   }
 
@@ -1488,8 +1555,10 @@ sections.forEach(id => { const el = document.getElementById(id); if(el) obs.obse
   function draw(dt) {
     clock += dt;
     for (let i = 0; i < walkers.length; i++) stepWalker(walkers[i], dt);
+    for (let i = 0; i < camels.length; i++) stepCamel(camels[i], dt);
     placeCamera(clock);
     renderer.render(scene, camera);
+    if (!wrap.classList.contains('ready')) wrap.classList.add('ready');
   }
   function frame(now) {
     if (!running) return;
