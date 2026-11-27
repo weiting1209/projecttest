@@ -1,0 +1,1143 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!-- 金黃鍋貼 · 品牌官網 -->
+<title>金黃鍋貼</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+
+<!-- Lucide Icons -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
+
+<!-- Tailwind Config -->
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        wood:    { DEFAULT: '#3D2B1F', light: '#6B4226', dark: '#231810' },
+        amber:   { DEFAULT: '#C8691D', light: '#E8842A', dark: '#A05218' },
+        cream:   { DEFAULT: '#F7F0E6', light: '#FDFAF5', dark: '#EDE0CC' },
+        charcoal:{ DEFAULT: '#2A2016' },
+        muted:   { DEFAULT: '#8C7055' },
+      },
+      fontFamily: {
+        display: ['"Noto Serif TC"', 'serif'],
+        sans:    ['"Noto Sans TC"', 'sans-serif'],
+      }
+    }
+  }
+}
+</script>
+
+<style>
+/* ── Design Tokens ──────────────────────────────── */
+:root {
+  --bg:       #F7F0E6;
+  --bg-alt:   #EDE0CC;
+  --fg:       #2A2016;
+  --fg-muted: #8C7055;
+  --accent:   #C8691D;
+  --accent-lt:#E8842A;
+  --wood:     #3D2B1F;
+  --wood-lt:  #6B4226;
+  --card-bg:  #FDFAF5;
+  --border:   #D9C9B0;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:       #1A120A;
+    --bg-alt:   #231810;
+    --fg:       #EDE0CC;
+    --fg-muted: #A08060;
+    --accent:   #E8842A;
+    --accent-lt:#F0A050;
+    --wood:     #C4956A;
+    --wood-lt:  #E0B080;
+    --card-bg:  #2A1E14;
+    --border:   #3D2D1E;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:       #1A120A;
+  --bg-alt:   #231810;
+  --fg:       #EDE0CC;
+  --fg-muted: #A08060;
+  --accent:   #E8842A;
+  --accent-lt:#F0A050;
+  --wood:     #C4956A;
+  --wood-lt:  #E0B080;
+  --card-bg:  #2A1E14;
+  --border:   #3D2D1E;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Noto Sans TC", sans-serif;
+}
+
+/* ── Smooth Scroll ── */
+html { scroll-behavior: smooth; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-alt); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+/* ── Nav ── */
+#main-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(247,240,230,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.3s;
+}
+:root[data-theme="dark"] #main-nav,
+@media (prefers-color-scheme: dark) { #main-nav { background: rgba(26,18,10,0.92); } }
+
+/* ── Hero ── */
+#hero {
+  min-height: 100vh;
+  background:
+    linear-gradient(to bottom, rgba(26,18,10,0.65) 0%, rgba(61,43,31,0.7) 100%),
+    url('https://images.unsplash.com/photo-1563245372-f21724e3856d?w=1600&q=80&auto=format&fit=crop') center/cover no-repeat;
+}
+
+/* ── Section alternating BG ── */
+.section-alt { background: var(--bg-alt); }
+
+/* ── Card ── */
+.menu-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.menu-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(61,43,31,0.14); }
+
+/* ── Tab active ── */
+.tab-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+.tab-btn {
+  background: var(--bg-alt);
+  color: var(--fg-muted);
+  border-radius: 999px;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* ── Accordion ── */
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+.faq-answer.open { max-height: 500px; }
+.faq-chevron { transition: transform 0.3s; }
+.faq-chevron.open { transform: rotate(180deg); }
+
+/* ── Toast ── */
+#toast {
+  position: fixed; bottom: 2rem; right: 1.5rem; z-index: 9999;
+  background: var(--wood); color: #F7F0E6;
+  padding: 0.9rem 1.4rem; border-radius: 0.75rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  font-size: 0.9rem; font-family: "Noto Sans TC", sans-serif;
+  transform: translateY(120%); opacity: 0;
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s;
+  pointer-events: none;
+}
+#toast.show { transform: translateY(0); opacity: 1; }
+
+/* ── Cart Drawer ── */
+#cart-drawer {
+  position: fixed; top: 0; right: 0; height: 100vh; width: min(420px, 100vw);
+  background: var(--card-bg); z-index: 200;
+  transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+  display: flex; flex-direction: column;
+  box-shadow: -8px 0 32px rgba(0,0,0,0.18);
+}
+#cart-drawer.open { transform: translateX(0); }
+#cart-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 199;
+  opacity: 0; pointer-events: none; transition: opacity 0.4s;
+}
+#cart-overlay.open { opacity: 1; pointer-events: all; }
+
+/* ── Checkout Modal ── */
+#checkout-modal {
+  position: fixed; inset: 0; z-index: 300;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  background: rgba(0,0,0,0.5);
+}
+#checkout-modal.open { opacity: 1; pointer-events: all; }
+#checkout-modal .modal-box {
+  background: var(--card-bg);
+  border-radius: 1.25rem;
+  width: min(560px, 94vw);
+  max-height: 90vh; overflow-y: auto;
+  padding: 2rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+/* ── Map Placeholder ── */
+.map-placeholder {
+  background:
+    linear-gradient(rgba(247,240,230,0.1), rgba(247,240,230,0.1)),
+    repeating-linear-gradient(0deg, transparent, transparent 39px, var(--border) 39px, var(--border) 40px),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, var(--border) 39px, var(--border) 40px);
+  background-color: var(--bg-alt);
+}
+
+/* ── Location card ── */
+.loc-card {
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 1rem; overflow: hidden;
+  cursor: pointer; transition: border-color 0.2s;
+}
+.loc-card.active { border-color: var(--accent); }
+
+/* ── Gift Card ── */
+.gift-card {
+  background: linear-gradient(135deg, var(--wood) 0%, var(--wood-lt) 100%);
+  border-radius: 1.25rem; color: #F7F0E6;
+}
+
+/* ── Stat item ── */
+.stat-num { font-family: "Noto Serif TC", serif; }
+
+/* ── Input base ── */
+.form-input {
+  background: var(--bg); border: 1px solid var(--border); border-radius: 0.5rem;
+  padding: 0.65rem 0.9rem; width: 100%; color: var(--fg);
+  font-family: "Noto Sans TC", sans-serif; font-size: 0.9rem;
+  transition: border-color 0.2s;
+}
+.form-input:focus { outline: none; border-color: var(--accent); }
+
+/* ── Delivery badge ── */
+.delivery-btn {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.4rem 0.9rem; border-radius: 999px;
+  font-size: 0.75rem; font-weight: 600; border: 1.5px solid var(--border);
+  color: var(--fg-muted); transition: all 0.2s; cursor: pointer;
+}
+.delivery-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── Picture frames as CSS art ── */
+.food-img {
+  aspect-ratio: 4/3; object-fit: cover; width: 100%;
+  background: var(--bg-alt);
+}
+</style>
+
+<!-- ═══════════════════════════════════════════
+     HEADER / NAVIGATION
+═══════════════════════════════════════════ -->
+<header id="main-nav">
+  <div class="max-w-7xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between gap-4">
+    <!-- Logo -->
+    <a href="#hero" class="flex items-center gap-2 shrink-0">
+      <span class="text-2xl" aria-label="鍋貼logo">🥟</span>
+      <span class="font-display font-bold text-xl" style="color:var(--accent)">金黃鍋貼</span>
+    </a>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden md:flex items-center gap-6 text-sm font-medium" style="color:var(--fg-muted)">
+      <a href="#brand-story"  class="hover:text-amber-DEFAULT transition-colors" style="--tw-text-opacity:1">品牌故事</a>
+      <a href="#menu"         class="hover:text-amber-DEFAULT transition-colors">熱門餐點</a>
+      <a href="#menu"         class="hover:text-amber-DEFAULT transition-colors">線上點餐</a>
+      <a href="#gift-boxes"   class="hover:text-amber-DEFAULT transition-colors">冷凍禮盒</a>
+      <a href="#locations"    class="hover:text-amber-DEFAULT transition-colors">門市據點</a>
+      <a href="#faq"          class="hover:text-amber-DEFAULT transition-colors">聯絡我們</a>
+    </nav>
+
+    <!-- Cart + CTA -->
+    <div class="flex items-center gap-3">
+      <!-- Cart button -->
+      <button id="cart-toggle" aria-label="購物車" class="relative p-2 rounded-full hover:bg-black/5 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>
+          <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+        </svg>
+        <span id="cart-badge"
+          class="absolute -top-1 -right-1 w-5 h-5 rounded-full text-xs font-bold flex items-center justify-center hidden"
+          style="background:var(--accent);color:#fff">0</span>
+      </button>
+
+      <!-- CTA -->
+      <a href="#menu" class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold text-white transition-all"
+        style="background:var(--accent)" onmouseover="this.style.background='var(--accent-lt)'" onmouseout="this.style.background='var(--accent)'">
+        立即點餐
+      </a>
+
+      <!-- Mobile menu -->
+      <button id="mobile-menu-btn" class="md:hidden p-2" aria-label="選單">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile nav menu -->
+  <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 border-t" style="border-color:var(--border)">
+    <nav class="flex flex-col gap-3 pt-3 text-sm font-medium" style="color:var(--fg-muted)">
+      <a href="#brand-story" class="py-1" onclick="closeMobile()">品牌故事</a>
+      <a href="#menu"        class="py-1" onclick="closeMobile()">熱門餐點</a>
+      <a href="#menu"        class="py-1" onclick="closeMobile()">線上點餐</a>
+      <a href="#gift-boxes"  class="py-1" onclick="closeMobile()">冷凍禮盒</a>
+      <a href="#locations"   class="py-1" onclick="closeMobile()">門市據點</a>
+      <a href="#faq"         class="py-1" onclick="closeMobile()">聯絡我們</a>
+      <a href="#menu" class="py-2 px-4 rounded-full text-center text-white text-sm font-semibold mt-1"
+        style="background:var(--accent)" onclick="closeMobile()">立即點餐</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ═══════════════════════════════════════════
+     HERO SECTION
+═══════════════════════════════════════════ -->
+<section id="hero" class="relative flex items-center justify-center text-center px-4"
+  style="padding-top:calc(env(safe-area-inset-top,0px) + 4rem)">
+  <!-- fallback gradient if image blocked -->
+  <div class="absolute inset-0 -z-10" style="background:linear-gradient(145deg,#231810 0%,#3D2B1F 40%,#6B4226 100%)"></div>
+
+  <div class="max-w-3xl mx-auto py-24 md:py-32">
+    <p class="text-sm font-semibold uppercase tracking-widest mb-4" style="color:var(--accent-lt)">Since 1994 · 三十年傳承</p>
+    <h1 class="font-display text-4xl md:text-6xl font-bold leading-tight mb-6" style="color:#F7F0E6;text-wrap:balance">
+      金黃酥脆，<br>傳承手藝的<span style="color:var(--accent-lt)">極致美味</span>
+    </h1>
+    <p class="text-base md:text-lg mb-10 max-w-xl mx-auto leading-relaxed" style="color:rgba(247,240,230,0.75)">
+      每一顆鍋貼都是匠人心血。台灣在地豬肉、每日手工現包，金黃酥脆底座，一口便知真功夫。
+    </p>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="#menu"
+        class="px-8 py-3.5 rounded-full font-semibold text-white transition-all"
+        style="background:var(--accent)"
+        onmouseover="this.style.background='var(--accent-lt)'"
+        onmouseout="this.style.background='var(--accent)'">
+        🥟 線上點餐
+      </a>
+      <a href="#locations"
+        class="px-8 py-3.5 rounded-full font-semibold transition-all"
+        style="background:rgba(247,240,230,0.12);color:#F7F0E6;border:1.5px solid rgba(247,240,230,0.35)"
+        onmouseover="this.style.background='rgba(247,240,230,0.2)'"
+        onmouseout="this.style.background='rgba(247,240,230,0.12)'">
+        📍 探索門市
+      </a>
+    </div>
+
+    <!-- scroll cue -->
+    <div class="mt-16 flex flex-col items-center gap-1" style="color:rgba(247,240,230,0.4)">
+      <span class="text-xs tracking-widest">SCROLL</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        class="animate-bounce"><path d="m6 9 6 6 6-6"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     BRAND STORY
+═══════════════════════════════════════════ -->
+<section id="brand-story" class="py-20 md:py-28">
+  <div class="max-w-7xl mx-auto px-4 md:px-8">
+    <div class="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
+      <!-- Text -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--accent)">Our Story</p>
+        <h2 class="font-display text-3xl md:text-4xl font-bold mb-6 leading-snug" style="text-wrap:balance">
+          一顆鍋貼，三十年的<br>職人堅持
+        </h2>
+        <p class="leading-relaxed mb-5" style="color:var(--fg-muted)">
+          1994 年，師傅林阿義在台北巷弄裡開了第一個鍋貼攤。
+          憑著一把鍋鏟、一份執著，他用黃金 3:7 油水比例煎出底脆皮嫩的完美鍋貼。
+          三十年後，這份配方不曾改變。
+        </p>
+        <ul class="space-y-3 mb-8" style="color:var(--fg-muted)">
+          <li class="flex items-start gap-3">
+            <span class="mt-0.5 text-lg">🐷</span>
+            <span><strong style="color:var(--fg)">台灣在地豬肉</strong> — 嚴選溫體豬後腿肉，每日新鮮現宰，拒絕冷凍原料</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-0.5 text-lg">🤲</span>
+            <span><strong style="color:var(--fg)">每日手工現包</strong> — 師傅凌晨 4:00 開始包製，確保每一顆皮薄餡飽</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-0.5 text-lg">🔥</span>
+            <span><strong style="color:var(--fg)">黃金煎脆比例</strong> — 老師傅秘製油水配方，底部金黃酥脆不沾鍋</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-2 gap-5">
+        <div class="p-6 rounded-2xl text-center" style="background:var(--bg-alt);border:1px solid var(--border)">
+          <p class="stat-num text-4xl md:text-5xl font-bold mb-2" style="color:var(--accent)">10,000+</p>
+          <p class="text-sm" style="color:var(--fg-muted)">每日出餐顆數</p>
+        </div>
+        <div class="p-6 rounded-2xl text-center" style="background:var(--wood);color:#F7F0E6">
+          <p class="stat-num text-4xl md:text-5xl font-bold mb-2">100%</p>
+          <p class="text-sm opacity-80">現點現煎</p>
+        </div>
+        <div class="p-6 rounded-2xl text-center" style="background:var(--accent);color:#fff">
+          <p class="stat-num text-4xl md:text-5xl font-bold mb-2">30</p>
+          <p class="text-sm opacity-90">年老店技術</p>
+        </div>
+        <div class="p-6 rounded-2xl text-center" style="background:var(--bg-alt);border:1px solid var(--border)">
+          <p class="stat-num text-4xl md:text-5xl font-bold mb-2" style="color:var(--accent)">5</p>
+          <p class="text-sm" style="color:var(--fg-muted)">門市遍佈全台</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FEATURED MENU / ONLINE ORDERING
+═══════════════════════════════════════════ -->
+<section id="menu" class="py-20 md:py-28 section-alt">
+  <div class="max-w-7xl mx-auto px-4 md:px-8">
+    <!-- Header -->
+    <div class="text-center mb-10">
+      <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--accent)">Menu &amp; Order</p>
+      <h2 class="font-display text-3xl md:text-4xl font-bold">線上點餐 · 熱門餐點</h2>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex flex-wrap justify-center gap-2 mb-10">
+      <button class="tab-btn active px-5 py-2.5 text-sm font-semibold" data-tab="guotie" onclick="switchTab(this,'guotie')">🥟 招牌鍋貼</button>
+      <button class="tab-btn px-5 py-2.5 text-sm font-semibold" data-tab="shuijiao" onclick="switchTab(this,'shuijiao')">🫧 精選水餃</button>
+      <button class="tab-btn px-5 py-2.5 text-sm font-semibold" data-tab="soup" onclick="switchTab(this,'soup')">🍜 湯品飲料</button>
+      <button class="tab-btn px-5 py-2.5 text-sm font-semibold" data-tab="side" onclick="switchTab(this,'side')">🥬 經典小菜</button>
+    </div>
+
+    <!-- Menu panels -->
+    <div id="tab-guotie"   class="tab-panel grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+    <div id="tab-shuijiao" class="tab-panel hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+    <div id="tab-soup"     class="tab-panel hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+    <div id="tab-side"     class="tab-panel hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     GIFT BOXES
+═══════════════════════════════════════════ -->
+<section id="gift-boxes" class="py-20 md:py-28">
+  <div class="max-w-7xl mx-auto px-4 md:px-8">
+    <div class="text-center mb-12">
+      <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--accent)">Frozen Gift Box</p>
+      <h2 class="font-display text-3xl md:text-4xl font-bold">冷凍禮盒 · 伴手好禮</h2>
+      <p class="mt-3 max-w-xl mx-auto text-sm leading-relaxed" style="color:var(--fg-muted)">
+        液態氮急速冷凍鎖住鮮味，在家 8 分鐘還原門市美味，送禮自用兩相宜。
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8">
+      <!-- Gift Card 1 -->
+      <div class="gift-card p-8 flex flex-col justify-between gap-6">
+        <div>
+          <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4"
+            style="background:rgba(247,240,230,0.2);color:#F7F0E6">🏆 最熱銷</span>
+          <h3 class="font-display text-2xl font-bold mb-3">招牌鍋貼禮盒 50 入</h3>
+          <p class="text-sm opacity-80 leading-relaxed mb-4">
+            嚴選三種口味各佔三分之一：原味、韭菜豬肉、高麗菜豬肉。
+            真空密封包裝，冷凍保存三個月。
+          </p>
+          <ul class="space-y-1.5 text-sm opacity-75">
+            <li>✦ 液態氮 -196°C 急速冷凍</li>
+            <li>✦ 在家 8 分鐘完美復原</li>
+            <li>✦ 附贈煎製說明卡</li>
+            <li>✦ 精美提袋包裝</li>
+          </ul>
+        </div>
+        <div class="flex items-end justify-between gap-4">
+          <div>
+            <p class="text-xs opacity-60 mb-0.5">原價 NT$850</p>
+            <p class="font-display text-3xl font-bold">NT$680</p>
+          </div>
+          <button onclick="addToCart({id:'gift1',name:'招牌鍋貼禮盒 50 入',price:680,emoji:'🎁'})"
+            class="px-6 py-3 rounded-full font-semibold text-sm transition-all"
+            style="background:rgba(247,240,230,0.9);color:var(--wood)"
+            onmouseover="this.style.background='#fff'" onmouseout="this.style.background='rgba(247,240,230,0.9)'">
+            加入購物車
+          </button>
+        </div>
+      </div>
+
+      <!-- Gift Card 2 -->
+      <div class="p-8 rounded-2xl flex flex-col justify-between gap-6"
+        style="background:var(--bg-alt);border:1px solid var(--border)">
+        <div>
+          <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4"
+            style="background:var(--accent);color:#fff">🎄 節慶首選</span>
+          <h3 class="font-display text-2xl font-bold mb-3">節慶豪華禮盒 100 入</h3>
+          <p class="text-sm leading-relaxed mb-4" style="color:var(--fg-muted)">
+            六種口味完整組合：原味、韭菜、高麗菜、泡菜、蝦仁、素食各 16-17 顆。
+            適合節日送禮、公司福利首選。
+          </p>
+          <ul class="space-y-1.5 text-sm" style="color:var(--fg-muted)">
+            <li>✦ 六種口味豐富組合</li>
+            <li>✦ 木質禮盒精緻包裝</li>
+            <li>✦ 專屬燙金賀卡</li>
+            <li>✦ 冷鏈宅配到府</li>
+          </ul>
+        </div>
+        <div class="flex items-end justify-between gap-4">
+          <div>
+            <p class="text-xs mb-0.5" style="color:var(--fg-muted)">原價 NT$1,600</p>
+            <p class="font-display text-3xl font-bold" style="color:var(--accent)">NT$1,280</p>
+          </div>
+          <button onclick="addToCart({id:'gift2',name:'節慶豪華禮盒 100 入',price:1280,emoji:'🎄'})"
+            class="px-6 py-3 rounded-full font-semibold text-sm text-white transition-all"
+            style="background:var(--accent)"
+            onmouseover="this.style.background='var(--accent-lt)'" onmouseout="this.style.background='var(--accent)'">
+            立即選購
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features strip -->
+    <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="text-center p-5 rounded-xl" style="background:var(--bg-alt)">
+        <div class="text-3xl mb-2">❄️</div>
+        <p class="text-sm font-semibold mb-1">液態氮急凍</p>
+        <p class="text-xs" style="color:var(--fg-muted)">-196°C 鎖住鮮甜</p>
+      </div>
+      <div class="text-center p-5 rounded-xl" style="background:var(--bg-alt)">
+        <div class="text-3xl mb-2">🏠</div>
+        <p class="text-sm font-semibold mb-1">8 分鐘復原</p>
+        <p class="text-xs" style="color:var(--fg-muted)">在家輕鬆料理</p>
+      </div>
+      <div class="text-center p-5 rounded-xl" style="background:var(--bg-alt)">
+        <div class="text-3xl mb-2">🚚</div>
+        <p class="text-sm font-semibold mb-1">冷鏈宅配</p>
+        <p class="text-xs" style="color:var(--fg-muted)">全台 2-3 日到貨</p>
+      </div>
+      <div class="text-center p-5 rounded-xl" style="background:var(--bg-alt)">
+        <div class="text-3xl mb-2">🎁</div>
+        <p class="text-sm font-semibold mb-1">精美包裝</p>
+        <p class="text-xs" style="color:var(--fg-muted)">送禮體面有質感</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     LOCATIONS & HOURS
+═══════════════════════════════════════════ -->
+<section id="locations" class="py-20 md:py-28 section-alt">
+  <div class="max-w-7xl mx-auto px-4 md:px-8">
+    <div class="text-center mb-10">
+      <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--accent)">Find Us</p>
+      <h2 class="font-display text-3xl md:text-4xl font-bold">門市據點</h2>
+    </div>
+
+    <!-- Location cards row -->
+    <div class="flex flex-wrap gap-3 mb-8 justify-center">
+      <button class="loc-card active px-5 py-3 text-sm font-semibold" onclick="switchLocation(this,'loc1')">🏪 旗艦店（大安）</button>
+      <button class="loc-card px-5 py-3 text-sm font-semibold" onclick="switchLocation(this,'loc2')">🏪 信義旗艦二店</button>
+      <button class="loc-card px-5 py-3 text-sm font-semibold" onclick="switchLocation(this,'loc3')">🏪 中山老宅店</button>
+    </div>
+
+    <div class="grid md:grid-cols-5 gap-8">
+      <!-- Info panel -->
+      <div class="md:col-span-2 space-y-6">
+        <!-- loc1 -->
+        <div id="loc1" class="loc-info">
+          <h3 class="font-display text-xl font-bold mb-4">旗艦店（大安）</h3>
+          <div class="space-y-3 text-sm" style="color:var(--fg-muted)">
+            <p>📍 台北市大安區復興南路一段 108 號</p>
+            <p>📞 (02) 2771-8899</p>
+            <p>🕐 週一～五 10:30–21:00<br>
+               &nbsp;&nbsp;&nbsp;&nbsp;週六日 10:00–21:30</p>
+            <p>🅿️ 附近停車場：SOGO 復興館地下停車場</p>
+          </div>
+          <div class="mt-5">
+            <p class="text-xs font-semibold uppercase tracking-wide mb-2" style="color:var(--fg-muted)">外送合作平台</p>
+            <div class="flex gap-2">
+              <span class="delivery-btn">🛵 UberEats</span>
+              <span class="delivery-btn">🛵 Foodpanda</span>
+            </div>
+          </div>
+        </div>
+        <!-- loc2 -->
+        <div id="loc2" class="loc-info hidden">
+          <h3 class="font-display text-xl font-bold mb-4">信義旗艦二店</h3>
+          <div class="space-y-3 text-sm" style="color:var(--fg-muted)">
+            <p>📍 台北市信義區松壽路 20 號（Neo19 B1）</p>
+            <p>📞 (02) 2723-6677</p>
+            <p>🕐 週一～四 11:00–21:30<br>
+               &nbsp;&nbsp;&nbsp;&nbsp;週五六 11:00–22:00<br>
+               &nbsp;&nbsp;&nbsp;&nbsp;週日 11:00–21:00</p>
+            <p>🅿️ Neo19 地下停車場</p>
+          </div>
+          <div class="mt-5">
+            <p class="text-xs font-semibold uppercase tracking-wide mb-2" style="color:var(--fg-muted)">外送合作平台</p>
+            <div class="flex gap-2">
+              <span class="delivery-btn">🛵 UberEats</span>
+              <span class="delivery-btn">🛵 Foodpanda</span>
+            </div>
+          </div>
+        </div>
+        <!-- loc3 -->
+        <div id="loc3" class="loc-info hidden">
+          <h3 class="font-display text-xl font-bold mb-4">中山老宅店</h3>
+          <div class="space-y-3 text-sm" style="color:var(--fg-muted)">
+            <p>📍 台北市中山區中山北路二段 25 巷 8 號</p>
+            <p>📞 (02) 2521-4455</p>
+            <p>🕐 週一公休<br>
+               &nbsp;&nbsp;&nbsp;&nbsp;週二～日 11:30–20:30</p>
+            <p>🅿️ 街邊停車 / 捷運中山站 3 分鐘</p>
+          </div>
+          <div class="mt-5">
+            <p class="text-xs font-semibold uppercase tracking-wide mb-2" style="color:var(--fg-muted)">外送合作平台</p>
+            <div class="flex gap-2">
+              <span class="delivery-btn">🛵 Foodpanda</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Map placeholder -->
+      <div class="md:col-span-3 rounded-2xl overflow-hidden relative" style="min-height:300px">
+        <div class="map-placeholder absolute inset-0 flex flex-col items-center justify-center gap-3">
+          <div class="text-5xl">🗺️</div>
+          <p class="text-sm font-semibold" style="color:var(--fg-muted)">Google Maps</p>
+          <a href="https://maps.google.com" target="_blank" rel="noopener"
+            class="px-5 py-2 rounded-full text-sm font-semibold text-white"
+            style="background:var(--accent)">在 Google Maps 開啟</a>
+          <!-- fake map street lines -->
+          <svg class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" opacity="0.12">
+            <line x1="0" y1="40%" x2="100%" y2="40%" stroke="currentColor" stroke-width="2"/>
+            <line x1="0" y1="65%" x2="100%" y2="65%" stroke="currentColor" stroke-width="1"/>
+            <line x1="30%" y1="0" x2="30%" y2="100%" stroke="currentColor" stroke-width="2"/>
+            <line x1="62%" y1="0" x2="62%" y2="100%" stroke="currentColor" stroke-width="1"/>
+            <circle cx="30%" cy="40%" r="8" fill="var(--accent)" opacity="0.9"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FAQ ACCORDION
+═══════════════════════════════════════════ -->
+<section id="faq" class="py-20 md:py-28">
+  <div class="max-w-3xl mx-auto px-4 md:px-8">
+    <div class="text-center mb-10">
+      <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--accent)">FAQ</p>
+      <h2 class="font-display text-3xl md:text-4xl font-bold">常見問題</h2>
+    </div>
+    <div id="faq-list" class="space-y-3"></div>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════ -->
+<footer style="background:var(--wood)">
+  <div class="max-w-7xl mx-auto px-4 md:px-8 py-14">
+    <div class="grid md:grid-cols-3 gap-10 mb-10">
+      <!-- Brand -->
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <span class="text-2xl">🥟</span>
+          <span class="font-display font-bold text-xl" style="color:#E8842A">金黃鍋貼</span>
+        </div>
+        <p class="text-sm leading-relaxed" style="color:rgba(247,240,230,0.65)">
+          三十年傳承，每日手工現包，<br>只為那一口黃金酥脆的美味。
+        </p>
+        <div class="flex gap-4 mt-5">
+          <a href="#" aria-label="Instagram" class="text-2xl transition-transform hover:scale-110">📸</a>
+          <a href="#" aria-label="Facebook"  class="text-2xl transition-transform hover:scale-110">📘</a>
+          <a href="#" aria-label="Line"      class="text-2xl transition-transform hover:scale-110">💬</a>
+        </div>
+      </div>
+
+      <!-- Quick links -->
+      <div>
+        <h4 class="font-semibold mb-4" style="color:rgba(247,240,230,0.9)">快速連結</h4>
+        <ul class="space-y-2 text-sm" style="color:rgba(247,240,230,0.6)">
+          <li><a href="#brand-story" class="hover:text-white transition-colors">品牌故事</a></li>
+          <li><a href="#menu"        class="hover:text-white transition-colors">線上點餐</a></li>
+          <li><a href="#gift-boxes"  class="hover:text-white transition-colors">冷凍禮盒</a></li>
+          <li><a href="#locations"   class="hover:text-white transition-colors">門市據點</a></li>
+          <li><a href="#faq"         class="hover:text-white transition-colors">聯絡我們</a></li>
+          <li><a href="#"            class="hover:text-white transition-colors">隱私權政策</a></li>
+        </ul>
+      </div>
+
+      <!-- Newsletter -->
+      <div>
+        <h4 class="font-semibold mb-2" style="color:rgba(247,240,230,0.9)">訂閱電子報</h4>
+        <p class="text-sm mb-4" style="color:rgba(247,240,230,0.6)">搶先獲得優惠活動與新品消息</p>
+        <form id="newsletter-form" onsubmit="submitNewsletter(event)" class="flex gap-2">
+          <input type="email" id="newsletter-email" placeholder="your@email.com" required
+            class="flex-1 px-4 py-2.5 rounded-full text-sm"
+            style="background:rgba(247,240,230,0.12);border:1px solid rgba(247,240,230,0.2);color:#F7F0E6;outline:none">
+          <button type="submit"
+            class="px-5 py-2.5 rounded-full font-semibold text-sm text-white shrink-0"
+            style="background:var(--accent)">訂閱</button>
+        </form>
+        <p id="newsletter-success" class="hidden text-sm mt-2" style="color:#E8842A">✅ 訂閱成功！感謝您的支持。</p>
+      </div>
+    </div>
+
+    <div class="border-t pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs"
+      style="border-color:rgba(247,240,230,0.15);color:rgba(247,240,230,0.4)">
+      <p>© 2024 金黃鍋貼有限公司 · All rights reserved.</p>
+      <div class="flex gap-5">
+        <a href="#" class="hover:text-white transition-colors">隱私權政策</a>
+        <a href="#" class="hover:text-white transition-colors">服務條款</a>
+        <a href="#" class="hover:text-white transition-colors">Cookie 政策</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Toast -->
+<div id="toast">🥟 已加入購物車！</div>
+
+<!-- Cart Overlay -->
+<div id="cart-overlay" onclick="closeCart()"></div>
+
+<!-- Cart Drawer -->
+<div id="cart-drawer" role="dialog" aria-label="購物車">
+  <div class="flex items-center justify-between px-6 py-4 border-b" style="border-color:var(--border)">
+    <h2 class="font-display text-lg font-bold">購物車</h2>
+    <button onclick="closeCart()" aria-label="關閉"
+      class="p-2 rounded-full hover:bg-black/5 transition-colors">✕</button>
+  </div>
+  <div id="cart-items" class="flex-1 overflow-y-auto px-6 py-4 space-y-4">
+    <!-- items rendered by JS -->
+  </div>
+  <div class="px-6 py-5 border-t" style="border-color:var(--border)">
+    <div id="cart-empty" class="text-center py-8" style="color:var(--fg-muted)">
+      <div class="text-5xl mb-3">🛒</div>
+      <p class="text-sm">購物車是空的</p>
+      <a href="#menu" onclick="closeCart()" class="inline-block mt-3 text-sm font-semibold" style="color:var(--accent)">去點餐 →</a>
+    </div>
+    <div id="cart-summary" class="hidden">
+      <div class="flex justify-between items-center mb-4">
+        <span class="font-semibold">合計</span>
+        <span id="cart-total" class="font-display text-xl font-bold" style="color:var(--accent)">NT$0</span>
+      </div>
+      <button onclick="openCheckout()"
+        class="w-full py-3.5 rounded-full font-semibold text-white text-sm"
+        style="background:var(--accent)">前往結帳 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Checkout Modal -->
+<div id="checkout-modal" role="dialog" aria-label="結帳">
+  <div class="modal-box">
+    <!-- Step 1: Order form -->
+    <div id="checkout-step1">
+      <h2 class="font-display text-xl font-bold mb-6">確認訂單</h2>
+
+      <!-- Dine type -->
+      <div class="mb-6">
+        <label class="block text-sm font-semibold mb-3">用餐方式</label>
+        <div class="flex gap-3 flex-wrap">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="dine" value="dine-in" checked class="accent-amber-500"> 內用
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="dine" value="takeout"> 外帶
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="dine" value="delivery"> 宅配
+          </label>
+        </div>
+      </div>
+
+      <!-- Order items summary -->
+      <div id="checkout-items-preview" class="mb-5 rounded-xl p-4 space-y-2 text-sm"
+        style="background:var(--bg-alt);border:1px solid var(--border)">
+      </div>
+
+      <!-- Contact form -->
+      <div class="space-y-3 mb-6">
+        <div>
+          <label class="block text-xs font-semibold mb-1.5" for="c-name">姓名</label>
+          <input type="text" id="c-name" class="form-input" placeholder="王小明">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold mb-1.5" for="c-phone">電話</label>
+          <input type="tel" id="c-phone" class="form-input" placeholder="0912-345-678">
+        </div>
+        <div id="c-addr-row">
+          <label class="block text-xs font-semibold mb-1.5" for="c-addr">送貨地址</label>
+          <input type="text" id="c-addr" class="form-input" placeholder="台北市大安區...">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold mb-1.5" for="c-note">備註</label>
+          <input type="text" id="c-note" class="form-input" placeholder="特殊需求（例：少辣、不要蔥）">
+        </div>
+      </div>
+
+      <div id="checkout-error" class="hidden text-sm mb-3" style="color:var(--accent)"></div>
+
+      <div class="flex gap-3">
+        <button onclick="closeCheckout()"
+          class="flex-1 py-3 rounded-full text-sm font-semibold border transition-colors"
+          style="border-color:var(--border);color:var(--fg-muted)">取消</button>
+        <button onclick="submitOrder()"
+          class="flex-1 py-3 rounded-full text-sm font-semibold text-white"
+          style="background:var(--accent)">送出訂單 🥟</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Success -->
+    <div id="checkout-step2" class="hidden text-center py-6">
+      <div class="text-6xl mb-4">🎉</div>
+      <h2 class="font-display text-2xl font-bold mb-3">訂單已建立！</h2>
+      <p class="text-sm mb-2" style="color:var(--fg-muted)">感謝您的惠顧，我們會盡快為您備餐。</p>
+      <p id="success-order-no" class="font-semibold mb-6" style="color:var(--accent)"></p>
+      <button onclick="closeCheckout(true)"
+        class="px-8 py-3 rounded-full text-white font-semibold"
+        style="background:var(--accent)">返回首頁</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════ -->
+<script>
+// ── Data ──────────────────────────────────────────────────────
+const MENU_DATA = {
+  guotie: [
+    { id:'gt1', name:'原味豬肉鍋貼', desc:'台灣溫體豬肉、高麗菜手工現包', price:65, unit:'10 顆/份', tags:['人氣', '必點'], emoji:'🥟', spicy:0 },
+    { id:'gt2', name:'韭菜豬肉鍋貼', desc:'鮮嫩韭菜配豬肉，香氣逼人', price:65, unit:'10 顆/份', tags:['爆汁'], emoji:'🥟', spicy:0 },
+    { id:'gt3', name:'泡菜豬肉鍋貼', desc:'自製韓式泡菜，微酸開胃', price:70, unit:'10 顆/份', tags:['微辣', '限定'], emoji:'🥟', spicy:1 },
+    { id:'gt4', name:'蝦仁鮮肉鍋貼', desc:'鮮甜蝦仁與豬肉的完美結合', price:80, unit:'10 顆/份', tags:['鮮甜', '高級'], emoji:'🦐', spicy:0 },
+  ],
+  shuijiao: [
+    { id:'sj1', name:'高麗菜水餃', desc:'清爽高麗菜豬肉餡，皮薄有嚼勁', price:55, unit:'15 顆/份', tags:['人氣'], emoji:'🫧', spicy:0 },
+    { id:'sj2', name:'韭菜豬肉水餃', desc:'傳統口味，老饕最愛', price:55, unit:'15 顆/份', tags:['經典'], emoji:'🫧', spicy:0 },
+    { id:'sj3', name:'鮮蝦水餃', desc:'飽滿蝦仁，每口都是鮮甜', price:70, unit:'15 顆/份', tags:['鮮甜'], emoji:'🦐', spicy:0 },
+    { id:'sj4', name:'素食水餃', desc:'豆腐蔬菜餡，清爽健康', price:50, unit:'15 顆/份', tags:['素食'], emoji:'🌱', spicy:0 },
+  ],
+  soup: [
+    { id:'sp1', name:'招牌貢丸湯', desc:'自製手打貢丸，大骨熬製高湯', price:50, unit:'1 碗', tags:['暖心'], emoji:'🍲', spicy:0 },
+    { id:'sp2', name:'蛤蜊豆腐湯', desc:'鮮蛤蜊與嫩豆腐，清甜鮮美', price:65, unit:'1 碗', tags:['鮮美'], emoji:'🐚', spicy:0 },
+    { id:'sp3', name:'珍珠奶茶', desc:'台灣在地茶葉，現搖現做', price:65, unit:'1 杯 700ml', tags:['冰/熱'], emoji:'🧋', spicy:0 },
+    { id:'sp4', name:'冬瓜檸檬茶', desc:'自製冬瓜糖，解膩消暑', price:55, unit:'1 杯 700ml', tags:['冰飲'], emoji:'🍋', spicy:0 },
+  ],
+  side: [
+    { id:'sd1', name:'涼拌小黃瓜', desc:'爽脆小黃瓜佐蒜香辣醬', price:40, unit:'1 份', tags:['爽口'], emoji:'🥒', spicy:1 },
+    { id:'sd2', name:'滷海帶', desc:'入味Q彈，低卡開胃', price:35, unit:'1 份', tags:['低卡'], emoji:'🌊', spicy:0 },
+    { id:'sd3', name:'皮蛋豆腐', desc:'頂級皮蛋配嫩豆腐，淋上醬油膏', price:55, unit:'1 份', tags:['人氣'], emoji:'🥚', spicy:0 },
+    { id:'sd4', name:'紅油抄手', desc:'自製紅油醬汁，香辣過癮', price:60, unit:'1 份', tags:['辣味', '必點'], emoji:'🌶️', spicy:2 },
+  ]
+};
+
+const FAQ_DATA = [
+  { q:'可以訂位嗎？', a:'本店採候位制，不接受訂位，建議避開尖峰時段（12:00–13:00、18:00–19:30）前來，等候時間更短。' },
+  { q:'鍋貼最少幾顆起點？', a:'堂食最少 10 顆起點，外帶及外送最少 20 顆起點，禮盒另有 50/100 顆包裝。' },
+  { q:'冷凍禮盒如何保存與料理？', a:'冷凍禮盒建議在 -18°C 冷凍保存，保存期限三個月。料理方式：平底鍋加少許油，放入鍋貼，加入 100ml 水加蓋，中火悶煎約 8 分鐘至水收乾即可。' },
+  { q:'有外送服務嗎？外送範圍？', a:'本店與 UberEats、Foodpanda 合作，外送範圍依平台設定，一般為門市方圓 5 公里內。禮盒商品支援全台冷鏈宅配，2–3 個工作天到府。' },
+  { q:'有素食鍋貼嗎？', a:'有！素食水餃以豆腐、高麗菜、香菇為主要食材製作，製程與葷食分開，適合蛋奶素食者。如有嚴格需求請事先告知。' },
+  { q:'如何聯繫客服？', a:'歡迎透過 Line Official Account（@guotie）、Facebook 粉絲頁私訊，或致電各門市，我們會盡快回覆。' },
+];
+
+// ── Cart State ─────────────────────────────────────────────────
+let cart = [];
+
+function cartTotal() {
+  return cart.reduce((s, i) => s + i.price * i.qty, 0);
+}
+
+function updateCartUI() {
+  const badge   = document.getElementById('cart-badge');
+  const items   = document.getElementById('cart-items');
+  const empty   = document.getElementById('cart-empty');
+  const summary = document.getElementById('cart-summary');
+  const total   = document.getElementById('cart-total');
+
+  const count = cart.reduce((s,i) => s + i.qty, 0);
+  if (count > 0) {
+    badge.textContent = count;
+    badge.classList.remove('hidden');
+  } else {
+    badge.classList.add('hidden');
+  }
+
+  if (cart.length === 0) {
+    items.innerHTML = '';
+    empty.classList.remove('hidden');
+    summary.classList.add('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+  summary.classList.remove('hidden');
+  total.textContent = 'NT$' + cartTotal().toLocaleString();
+
+  items.innerHTML = cart.map(item => `
+    <div class="flex gap-3 items-center">
+      <span class="text-2xl">${item.emoji}</span>
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-semibold truncate">${item.name}</p>
+        <p class="text-xs" style="color:var(--fg-muted)">NT$${item.price} × ${item.qty} = NT$${(item.price*item.qty).toLocaleString()}</p>
+      </div>
+      <div class="flex items-center gap-1 shrink-0">
+        <button onclick="changeQty('${item.id}',-1)" class="w-7 h-7 rounded-full text-sm font-bold flex items-center justify-center transition-colors"
+          style="background:var(--bg-alt)">－</button>
+        <span class="w-6 text-center text-sm font-bold">${item.qty}</span>
+        <button onclick="changeQty('${item.id}',1)" class="w-7 h-7 rounded-full text-sm font-bold flex items-center justify-center transition-colors"
+          style="background:var(--bg-alt)">＋</button>
+        <button onclick="removeItem('${item.id}')" class="ml-1 text-sm" style="color:var(--fg-muted)">✕</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addToCart(item) {
+  const existing = cart.find(i => i.id === item.id);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({ ...item, qty: 1 });
+  }
+  updateCartUI();
+  showToast(`已加入：${item.emoji} ${item.name}`);
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(i => i.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+  updateCartUI();
+}
+
+function removeItem(id) {
+  cart = cart.filter(i => i.id !== id);
+  updateCartUI();
+}
+
+// ── Toast ──────────────────────────────────────────────────────
+let toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ── Cart Drawer ────────────────────────────────────────────────
+function openCart() {
+  document.getElementById('cart-drawer').classList.add('open');
+  document.getElementById('cart-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCart() {
+  document.getElementById('cart-drawer').classList.remove('open');
+  document.getElementById('cart-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('cart-toggle').onclick = () => {
+  document.getElementById('cart-drawer').classList.contains('open') ? closeCart() : openCart();
+};
+
+// ── Checkout ───────────────────────────────────────────────────
+function openCheckout() {
+  // populate preview
+  const preview = document.getElementById('checkout-items-preview');
+  preview.innerHTML = cart.map(i =>
+    `<div class="flex justify-between"><span>${i.emoji} ${i.name} ×${i.qty}</span><span>NT$${(i.price*i.qty).toLocaleString()}</span></div>`
+  ).join('') + `<div class="border-t mt-2 pt-2 flex justify-between font-semibold" style="border-color:var(--border)">
+    <span>合計</span><span style="color:var(--accent)">NT$${cartTotal().toLocaleString()}</span>
+  </div>`;
+
+  document.getElementById('checkout-step1').classList.remove('hidden');
+  document.getElementById('checkout-step2').classList.add('hidden');
+  document.getElementById('checkout-error').classList.add('hidden');
+  document.getElementById('checkout-modal').classList.add('open');
+
+  // show/hide address field based on dine selection
+  document.querySelectorAll('input[name="dine"]').forEach(r => {
+    r.addEventListener('change', () => {
+      const show = r.value === 'delivery';
+      document.getElementById('c-addr-row').style.display = show ? '' : 'none';
+    });
+  });
+  document.getElementById('c-addr-row').style.display = 'none';
+}
+
+function closeCheckout(clear = false) {
+  document.getElementById('checkout-modal').classList.remove('open');
+  if (clear) {
+    cart = [];
+    updateCartUI();
+    closeCart();
+  }
+}
+
+function submitOrder() {
+  const name  = document.getElementById('c-name').value.trim();
+  const phone = document.getElementById('c-phone').value.trim();
+  const errEl = document.getElementById('checkout-error');
+  if (!name || !phone) {
+    errEl.textContent = '⚠️ 請填寫姓名與電話';
+    errEl.classList.remove('hidden');
+    return;
+  }
+  errEl.classList.add('hidden');
+  const orderNo = 'GT' + Date.now().toString().slice(-6);
+  document.getElementById('success-order-no').textContent = `訂單編號：${orderNo}`;
+  document.getElementById('checkout-step1').classList.add('hidden');
+  document.getElementById('checkout-step2').classList.remove('hidden');
+}
+
+// ── Tab switching ──────────────────────────────────────────────
+function switchTab(btn, tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + tab).classList.remove('hidden');
+}
+
+// ── Location switch ────────────────────────────────────────────
+function switchLocation(card, id) {
+  document.querySelectorAll('.loc-card').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.loc-info').forEach(l => l.classList.add('hidden'));
+  card.classList.add('active');
+  document.getElementById(id).classList.remove('hidden');
+}
+
+// ── Mobile menu ────────────────────────────────────────────────
+document.getElementById('mobile-menu-btn').onclick = () => {
+  document.getElementById('mobile-menu').classList.toggle('hidden');
+};
+function closeMobile() {
+  document.getElementById('mobile-menu').classList.add('hidden');
+}
+
+// ── Build Menu Cards ───────────────────────────────────────────
+function spicyDots(n) {
+  return ['','🌶️','🌶️🌶️','🌶️🌶️🌶️'][n] || '';
+}
+function buildMenu() {
+  for (const [cat, items] of Object.entries(MENU_DATA)) {
+    const container = document.getElementById('tab-' + cat);
+    container.innerHTML = items.map(item => `
+      <div class="menu-card flex flex-col">
+        <!-- Emoji art header -->
+        <div class="relative flex items-center justify-center text-7xl"
+          style="aspect-ratio:16/9;background:var(--bg-alt)">
+          ${item.emoji}
+          ${item.tags.map(t => `<span class="absolute top-2 right-2 px-2 py-0.5 rounded-full text-xs font-bold" style="background:var(--accent);color:#fff">${t}</span>`).join('')}
+        </div>
+        <div class="p-4 flex flex-col flex-1">
+          <div class="flex items-start justify-between gap-2 mb-1">
+            <h3 class="font-display font-bold text-base leading-snug">${item.name}</h3>
+            ${item.spicy ? `<span class="shrink-0 text-xs">${spicyDots(item.spicy)}</span>` : ''}
+          </div>
+          <p class="text-xs mb-3 leading-relaxed flex-1" style="color:var(--fg-muted)">${item.desc}</p>
+          <div class="flex items-center justify-between gap-2">
+            <div>
+              <p class="font-display font-bold text-lg" style="color:var(--accent)">NT$${item.price}</p>
+              <p class="text-xs" style="color:var(--fg-muted)">${item.unit}</p>
+            </div>
+            <button onclick="addToCart({id:'${item.id}',name:'${item.name}',price:${item.price},emoji:'${item.emoji}'})"
+              class="px-4 py-2 rounded-full text-xs font-semibold text-white transition-all shrink-0"
+              style="background:var(--accent)"
+              onmouseover="this.style.background='var(--accent-lt)'"
+              onmouseout="this.style.background='var(--accent)'">
+              + 加入購物車
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+}
+
+// ── Build FAQ ──────────────────────────────────────────────────
+function buildFAQ() {
+  const list = document.getElementById('faq-list');
+  list.innerHTML = FAQ_DATA.map((faq, i) => `
+    <div class="rounded-xl overflow-hidden border" style="border-color:var(--border)">
+      <button class="w-full text-left px-5 py-4 flex items-center justify-between gap-4 font-semibold text-sm"
+        onclick="toggleFAQ(${i})" id="faq-btn-${i}">
+        <span>${faq.q}</span>
+        <svg class="faq-chevron shrink-0" id="faq-chev-${i}" xmlns="http://www.w3.org/2000/svg"
+          width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m6 9 6 6 6-6"/>
+        </svg>
+      </button>
+      <div class="faq-answer" id="faq-ans-${i}">
+        <p class="px-5 pb-4 text-sm leading-relaxed" style="color:var(--fg-muted)">${faq.a}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleFAQ(i) {
+  const ans  = document.getElementById('faq-ans-' + i);
+  const chev = document.getElementById('faq-chev-' + i);
+  const isOpen = ans.classList.contains('open');
+  // close all
+  document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+  document.querySelectorAll('.faq-chevron').forEach(c => c.classList.remove('open'));
+  if (!isOpen) {
+    ans.classList.add('open');
+    chev.classList.add('open');
+  }
+}
+
+// ── Newsletter ─────────────────────────────────────────────────
+function submitNewsletter(e) {
+  e.preventDefault();
+  document.getElementById('newsletter-form').classList.add('hidden');
+  document.getElementById('newsletter-success').classList.remove('hidden');
+}
+
+// ── Init ───────────────────────────────────────────────────────
+buildMenu();
+buildFAQ();
+updateCartUI();
+
+// Lucide icons (if loaded)
+if (typeof lucide !== 'undefined') lucide.createIcons();
+
+// Nav active on scroll
+const sections = ['brand-story','menu','gift-boxes','locations','faq'];
+const navLinks = document.querySelectorAll('nav a');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = '#' + e.target.id;
+      navLinks.forEach(a => {
+        a.style.color = (a.getAttribute('href') === id) ? 'var(--accent)' : 'var(--fg-muted)';
+      });
+    }
+  });
+}, { threshold: 0.35 });
+sections.forEach(id => { const el = document.getElementById(id); if(el) obs.observe(el); });
+</script>
+
+</body></html>
